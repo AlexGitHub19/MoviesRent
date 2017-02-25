@@ -1,0 +1,51 @@
+﻿@model IEnumerable<MoviesRent.Models.Movie>
+@{
+    ViewBag.Title = "Home Page";
+    var grid = new WebGrid(Model);
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Welcome!</title>
+    <meta name="viewport" content="width=device-width" />
+    <title>Movies Rent</title>
+    <link type="text/css" rel="stylesheet" href="@Url.Content("~/Content/Css_Styles/IndexPageStyle.css")" />
+</head>
+<body>
+    <p class="Titleofpage">Available movies</p>
+   
+        @grid.GetHtml(
+            columns: grid.Columns(
+                grid.Column(header: "Image", format:@<text>@Html.Raw("<img src=\"" + @item.ImagePath+ "\" />")</text>, canSort: false),
+                grid.Column(columnName: "Name", header: "Name"),
+                grid.Column(columnName: "Price", header: "Price per day")
+            )
+        )
+
+    <br>
+        @using (Html.BeginForm("Index", "Home"))
+        {
+            <fieldset>
+                <legend>Calculate price</legend>
+                <table>
+                    <tr>
+                        <td><p>Choose movie</p></td>
+                        <td><p>Choose number of days</p></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><p>@Html.DropDownList("DropDawnListMovies")</p></td>
+                        <td><p>@Html.TextBox("NumberOfDays")</p></td>
+                        <td><input type="submit" value="Calculte"/></td>
+                    </tr>
+                </table> 
+                               
+                <label>@ViewBag.OrderPrice</label>              
+            </fieldset>
+        }
+
+</body>
+</html>
